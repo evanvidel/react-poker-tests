@@ -10,6 +10,32 @@ class App extends Component {
   state = {
     loading: true,
     winnerFound: null,
+    players: null,
+    numPlayersActive: null,
+    numPlayersFolded: null,
+    numPlayersAllIn: null,
+    activePlayerIndex: null,
+    dealerIndex: null,
+    blindIndex: null,
+    deck: null,
+    communityCards: [],
+    pot: null,
+    highBet: null,
+    betInputValue: null,
+    sidePots: [],
+    minBet: 20,
+    phase: 'loading',
+    playerHierarchy: [],
+    showDownMessages: [],
+    playActionMessages: [],
+    playerAnimationSwitchboard: {
+      0: { isAnimating: false, content: null },
+      1: { isAnimating: false, content: null },
+      2: { isAnimating: false, content: null },
+      3: { isAnimating: false, content: null },
+      4: { isAnimating: false, content: null },
+      5: { isAnimating: false, content: null },
+    },
   };
 
   async componentDidMount() {
@@ -26,6 +52,22 @@ class App extends Component {
     imageLoaderRequest.send();
   }
 
+  renderActionButtons = () => {
+    return (
+      <React.Fragment>
+        <button
+          className="action-button"
+          onClick={() => this.handleBetInputSubmit()}
+        >Call</button>
+        <button className="fold-button" onClick={() => this.handleFold()}>
+          Fold
+        </button>
+      </React.Fragment>
+    );
+  };
+
+  renderShowdown = () => {};
+
   renderGame = () => {
     return (
       <div className="poker-app--background">
@@ -36,11 +78,17 @@ class App extends Component {
             alt="Poker Table"
           />
           <div className="community-card-container"></div>
-          <div className="pot-container"></div>
+          <div className="pot-container">
+            <img
+              style={{ height: 55, width: 55 }}
+              src={'./assets/pot.svg'}
+              alt="Pot Value"
+            />
+          </div>
         </div>
 
         <div className="game-action-bar">
-          <div className="action-buttons"></div>
+          <div className="action-buttons">{this.renderActionButtons()}</div>
           <div className="slider-boi"></div>
         </div>
       </div>
